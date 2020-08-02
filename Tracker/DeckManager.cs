@@ -196,11 +196,13 @@ namespace GodsUnchained_Deck_Tracker.Tracker
             sortedDrawnCards = new SortedDictionary<Card, int>(drawnCards);
             sortedSanctumDrawnCards = new SortedDictionary<Card, int>(sanctumDrawnCards);
 
-            foreach(Card deckCard in selectedDeck.Cards) {
-                if (sortedDeckCards.ContainsKey(deckCard)) {
-                    sortedDeckCards[deckCard] = 2;
-                } else {
-                    sortedDeckCards[deckCard] = 1;
+            if(selectedDeck != null) {
+                foreach (Card deckCard in selectedDeck.Cards) {
+                    if (sortedDeckCards.ContainsKey(deckCard)) {
+                        sortedDeckCards[deckCard] = 2;
+                    } else {
+                        sortedDeckCards[deckCard] = 1;
+                    }
                 }
             }
 
