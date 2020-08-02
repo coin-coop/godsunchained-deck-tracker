@@ -1,0 +1,102 @@
+﻿<Window x:Class="GodsUnchained_Deck_Tracker.Windows.DeckTrackerOpponent"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GodsUnchained_Deck_Tracker.Windows"
+        mc:Ignorable="d"
+        Title="Deck Tracker" Height="1000" Width="300" Top="0" Left="0" FontSize="14"
+        AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="Manual" ResizeMode="CanResize">
+    
+    <Window.Background>
+        <SolidColorBrush Opacity="0.7" Color="#152C40"/>
+    </Window.Background>
+
+    <Window.Resources>
+        <!-- .... other resources .... -->
+
+        <!--A Style that affects all Labels-->
+        <Style TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Montserrat"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="LightSkyBlue"/>
+        </Style>
+
+        <!--A Style that affects all TextBlocks-->
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="FontFamily" Value="Montserrat"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="AliceBlue"/>
+        </Style>
+
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="120"/>
+        </Grid.RowDefinitions>
+
+        <Label Name="lblDeckTitle" Grid.Row="0" Grid.Column="0" FontSize="18" FontWeight="Bold">
+            
+        </Label>
+        
+        <Label Name="lblCardsCount" Grid.Row="1" Grid.Column="0">
+            
+        </Label>
+
+        <Label Name="lblDeckCards" Grid.Row="2" Grid.Column="0" FontWeight="Bold">
+            Cards In Deck
+        </Label>
+        
+        <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <TextBlock Name="txtDeckCards" ScrollViewer.CanContentScroll="True" Margin="3"
+                       Text="Warning: Waiting for deck loading..." TextWrapping="Wrap" AllowDrop="False"
+                       Padding="0,0,5,0" />
+        </ScrollViewer>
+
+        <Label Name="lblDrawnCardsTitle" Grid.Row="4" Grid.Column="0" FontWeight="Bold">
+            Cards Drawn
+        </Label>
+            
+        <ScrollViewer Grid.Row="5" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <TextBlock Name="txtDrawnCards" ScrollViewer.CanContentScroll="True" Margin="3"
+                       Text="" TextWrapping="Wrap" AllowDrop="False" Padding="0,0,5,0" />
+        </ScrollViewer>
+
+        <Label Name="lblExtraDrawnCardsTitle" Grid.Row="6" Grid.Column="0" FontWeight="Bold">
+            Extra Cards Drawn
+        </Label>
+        
+        <ScrollViewer Grid.Row="7" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <TextBlock Name="txtExtraDrawnCards" ScrollViewer.CanContentScroll="True" Margin="3"
+                       Text="" TextWrapping="Wrap" AllowDrop="False" Padding="0,0,5,0" />
+        </ScrollViewer>
+
+        <Label Name="lblSanctumDrawnCardsTitle" Grid.Row="8" Grid.Column="0" FontWeight="Bold">
+            Sanctum Cards Drawn
+        </Label>
+
+        <ScrollViewer Grid.Row="9" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <TextBlock Name="txtSanctumDrawnCards" ScrollViewer.CanContentScroll="True" Margin="3"
+                       Text="" TextWrapping="Wrap" AllowDrop="False" Padding="0,0,5,0" />
+        </ScrollViewer>
+    </Grid>
+</Window>

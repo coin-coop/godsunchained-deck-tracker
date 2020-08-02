@@ -1,0 +1,22 @@
+﻿<Window x:Class="GodsUnchained_Deck_Tracker.Windows.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GodsUnchained_Deck_Tracker.Windows"
+        mc:Ignorable="d"
+        Title="Settings" Height="100" Width="750">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBox Grid.Column="0" Grid.Row="0" Name="txtLogFilePath" Text="C:\Users\YourUser\AppData\LocalLow\FuelGames\Gods Unchained - Version 0.24.1.544(2020.7.23) - Built at 20_58_23\output_log_simple.txt" />
+        <Button Grid.Column="0" Grid.Row="1" Name="buttonSave" Content="Save" Click="Button_Click" />
+    </Grid>
+</Window>
