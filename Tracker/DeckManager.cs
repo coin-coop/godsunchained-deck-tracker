@@ -1,15 +1,11 @@
 ﻿using GodsUnchained_Deck_Tracker.Controller;
 using GodsUnchained_Deck_Tracker.Model.Entities;
-using GodsUnchained_Deck_Tracker.Model.Enums;
-using GodsUnchained_Deck_Tracker.Utilities;
 using GodsUnchained_Deck_Tracker.Utilities.Http;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GodsUnchained_Deck_Tracker.Tracker
@@ -43,13 +39,16 @@ namespace GodsUnchained_Deck_Tracker.Tracker
             List<CardView> cardsView = new List<CardView>();
 
             foreach (Card card in sortedCards) {
-                int index = cardsView.FindIndex(item => item.Name.Trim() == card.Prototype.Name);
+                int index = cardsView.FindIndex(item => item.Name == card.Prototype.Name);
                 if (index >= 0) {
                     CardView cardView = cardsView[index];
                     cardView.Amount += 1;
+                    cardView.DrawProbability = GetDrawProbability(cardView);
                     cardsView[index] = cardView;
                 } else {
-                    cardsView.Add(new CardView(card));
+                    CardView cardView = new CardView(card);
+                    cardView.DrawProbability = cardView.DrawProbability = GetDrawProbability(cardView);
+                    cardsView.Add(cardView);
                 }
             }
             return cardsView;
@@ -140,6 +139,10 @@ namespace GodsUnchained_Deck_Tracker.Tracker
             }
         }
 
+        private static string GetDrawProbability(CardView cardView) {
+            return (Math.Round(100 * (double) cardView.Amount / cardsInDeck, 1).ToString() + "%").PadLeft(6, ' ');
+        }
+
         private static List<CardView> ConvertDictionaryToCardViewList(SortedDictionary<Card, int> cardsDicitionary, bool deckCards) {
             List<Card> cards = new List<Card>();
 
@@ -159,16 +162,16 @@ namespace GodsUnchained_Deck_Tracker.Tracker
                     foreach (KeyValuePair<Card, int> deckCard in sortedDeckCards) {
                         if (deckCard.Value < 1) {
                             CardView cardView = new CardView(deckCard.Key) {
-                                Amount = 0
+                                Amount = 0,
+                                TextColor = "LightSteelBlue"
                             };
                             cardsView.Add(cardView);
-                            Debug.WriteLine(cardView.Name + cardView.Mana + cardView.Amount.ToString());
                         }
                     }
                 }
                 return cardsView.OrderBy(o => o.Mana).ThenBy(o => o.Name).ToList();
             }
-            
+
             return new List<CardView>();
         }
 
@@ -178,7 +181,7 @@ namespace GodsUnchained_Deck_Tracker.Tracker
 
             cardsInDeck = 30;
 
-            if(File.Exists(logFilePath)) {
+            if (File.Exists(logFilePath)) {
                 FileStream logFileStream = new FileStream(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 StreamReader logReader = new StreamReader(logFileStream);
 
@@ -204,7 +207,7 @@ namespace GodsUnchained_Deck_Tracker.Tracker
             sortedDrawnCards = new SortedDictionary<Card, int>(drawnCards);
             sortedSanctumDrawnCards = new SortedDictionary<Card, int>(sanctumDrawnCards);
 
-            if(selectedDeck != null) {
+            if (selectedDeck != null) {
                 foreach (Card deckCard in selectedDeck.Cards) {
                     if (sortedDeckCards.ContainsKey(deckCard)) {
                         sortedDeckCards[deckCard] = 2;
@@ -280,12 +283,10 @@ namespace GodsUnchained_Deck_Tracker.Tracker
             string totalRounds = ((int) record["total_rounds"]).ToString();
 
             string value = winnerId + "::" + loserId + "::" + gameMode + "::" + startTime + "::" + endTime + "::" + totalRounds + "::";
-            //Debug.WriteLine(value);
 
             JArray playerInfo = (JArray) record["player_info"];
 
             foreach (JToken player in playerInfo) {
-                //Debug.WriteLine(player);
                 int userID = (int) player["user_id"];
                 string god = (string) player["god"];
                 string godPower = ((int) player["god_power"]).ToString();
@@ -307,7 +308,6 @@ namespace GodsUnchained_Deck_Tracker.Tracker
 
                 value += cardsStr;
 
-                //Debug.WriteLine(record["game_id"]);
                 matches[(string) record["game_id"]] = value;
             }
         }
@@ -319,7 +319,7 @@ namespace GodsUnchained_Deck_Tracker.Tracker
                 Card key = drawnCards.First(drawnCard => drawnCard.Key.Prototype.Name == cardName).Key;
                 drawnCards[key] = drawnCards[key] + 1;
             } else {
-                drawnCards[new Card(cardName)] = 1;
+                drawnCards[new Card(cardName, true)] = 1;
             }
         }
     }

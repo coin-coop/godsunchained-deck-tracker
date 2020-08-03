@@ -19,15 +19,15 @@ namespace GodsUnchained_Deck_Tracker.Windows
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window
+    {
 
         private DeckTrackerPlayer deckTrackerPlayer;
         private DeckTrackerOpponent deckTrackerOpponent;
         private Settings settings;
         private Deck selectedDeck;
 
-        public MainWindow()
-        {
+        public MainWindow() {
             InitializeComponent();
 
             try {
@@ -41,7 +41,7 @@ namespace GodsUnchained_Deck_Tracker.Windows
 
                 //if (Properties.Settings.Default.logFilePath.Contains("C:\\Users\\YourUser\\")) {
                 settings = new Settings();
-                    settings.ShowDialog();
+                settings.ShowDialog();
                 //}
 
                 DispatcherTimer timerUpdate = new DispatcherTimer {
@@ -55,7 +55,7 @@ namespace GodsUnchained_Deck_Tracker.Windows
                 };
                 timerDeckList.Tick += UpdateDeckList;
                 timerDeckList.Start();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 lblException.Text = e.Message + e.StackTrace;
             }
         }
@@ -85,10 +85,10 @@ namespace GodsUnchained_Deck_Tracker.Windows
                 }
 
                 AddDeckButtonsToStackPanel();
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 lblException.Text = ex.Message + ex.StackTrace;
             }
-}
+        }
 
         private void UpdateDeck(object sender, EventArgs e) {
             //deckTrackerOpponent.lblDeckTitle.Content = "Current Deck Title";
@@ -111,7 +111,7 @@ namespace GodsUnchained_Deck_Tracker.Windows
         private void DisplayUserInfo(User user) {
             txtLoading.Text = "";
             txtPlayerName.Text = user.Name;
-            lblRankData.Content =  user.Rank;
+            lblRankData.Content = user.Rank;
             lblRatingData.Content = user.Rating.ToString();
             lblLevelData.Content = user.Level.ToString();
             lblMatchesData.Content = (user.Wins + user.Loses).ToString();
@@ -123,7 +123,7 @@ namespace GodsUnchained_Deck_Tracker.Windows
 
         private void AddDeckButtonsToStackPanel() {
             List<Deck> decks = DeckManager.GetDecks();
-            if(decks.Count > spDecks.Children.Count) {
+            if (decks.Count > spDecks.Children.Count) {
                 spDecks.Children.Clear();
                 foreach (Deck deck in decks) {
                     ImageBrush brush = new ImageBrush();
@@ -155,6 +155,7 @@ namespace GodsUnchained_Deck_Tracker.Windows
 
         private void DeckButton_Click(object sender, RoutedEventArgs e) {
             Button button = sender as Button;
+            button.Foreground = Brushes.DodgerBlue;
 
             Deck deck = button.Tag as Deck;
 

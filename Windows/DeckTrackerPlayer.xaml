@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GodsUnchained_Deck_Tracker.Windows"
         mc:Ignorable="d"
-        Title="Deck Tracker" Height="1000" Width="300" Top="0" FontSize="14"
+        Title="Deck Tracker" Height="1000" Width="320" Top="0" FontSize="14"
         AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="Manual" ResizeMode="CanResize">
 
     <Window.Background>
@@ -13,7 +13,9 @@
     </Window.Background>
 
     <Window.Resources>
-        <!-- .... other resources .... -->
+        <!-- Background resources -->
+        <SolidColorBrush x:Key="ManaBrush" Opacity="0.4" Color="CornflowerBlue"/>
+        <SolidColorBrush x:Key="RecordBrush" Opacity="0.1" Color="SlateBlue"/>
 
         <!--A Style that affects all Labels-->
         <Style TargetType="Label">
@@ -36,7 +38,7 @@
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -53,34 +55,37 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Name="lblDeckTitle" FontSize="18" FontWeight="Bold">
-            
+
         </Label>
 
         <Label Grid.Row="1" Grid.Column="0" Name="lblCardsCount">
-            
+
         </Label>
 
         <Label Grid.Row="2" Grid.Column="0" Name="lblDeckCards" FontWeight="Bold">
             Cards In Deck
         </Label>
 
-        <ListBox Grid.Row="3" Grid.Column="0" Name="lbCards" BorderThickness="0" Background="Transparent" BorderBrush="Transparent" Margin="10" Grid.IsSharedSizeScope="True">
+        <ListBox Grid.Row="3" Grid.Column="0" Name="lbCards" BorderThickness="0" Background="Transparent" BorderBrush="Transparent" Margin="5" Grid.IsSharedSizeScope="True">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.Resources>
                             <!--<ImageBrush x:Key="mana" ImageSource="pack://application:,,,/Resources/Images/Decks/mana-20.png" Stretch="None" AlignmentY="Top" AlignmentX="Center"></ImageBrush>-->
+                            <SolidColorBrush x:Key="DrawProbablityBrush" Opacity="0.1" Color="RoyalBlue"/>
                         </Grid.Resources>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" SharedSizeGroup="Column1"/>
                             <ColumnDefinition Width="Auto" SharedSizeGroup="Column2"/>
                             <ColumnDefinition Width="Auto" SharedSizeGroup="Column3"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Column4"/>
                         </Grid.ColumnDefinitions>
                         <!-- Assumes MVVM and you wish to bind to properties and commands -->
                         <!--<TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="AliceBlue" Background="{StaticResource mana}" FontSize="13" FontWeight="Bold"/>-->
-                        <TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="AliceBlue" Background="CornflowerBlue" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="AliceBlue"/>
-                        <TextBlock Grid.Column="2" Text="{Binding Amount}" Foreground="AliceBlue"/>
+                        <TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="{Binding TextColor}" Background="{StaticResource ManaBrush}" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="1" Text="{Binding NameTracker}" Foreground="{Binding TextColor}" Background="{StaticResource RecordBrush}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding DrawProbability}" Foreground="{Binding TextColor}" Background="{StaticResource DrawProbablityBrush}"/>
+                        <TextBlock Grid.Column="3" Text="{Binding AmountText}" Foreground="{Binding TextColor}" Background="{StaticResource RecordBrush}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -90,7 +95,7 @@
             Extra Cards Drawn
         </Label>
 
-        <ListBox Grid.Row="5" Grid.Column="0" Name="lbExtraCards" BorderThickness="0" Background="Transparent" BorderBrush="Transparent" Margin="10" Grid.IsSharedSizeScope="True">
+        <ListBox Grid.Row="5" Grid.Column="0" Name="lbExtraCards" BorderThickness="0" Background="Transparent" BorderBrush="Transparent" Margin="5" Grid.IsSharedSizeScope="True">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -104,9 +109,9 @@
                         </Grid.ColumnDefinitions>
                         <!-- Assumes MVVM and you wish to bind to properties and commands -->
                         <!--<TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="AliceBlue" Background="{StaticResource mana}" FontSize="13" FontWeight="Bold"/>-->
-                        <TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="AliceBlue" Background="CornflowerBlue" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="AliceBlue"/>
-                        <TextBlock Grid.Column="2" Text="{Binding Amount}" Foreground="AliceBlue"/>
+                        <TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="{Binding TextColor}" Background="{StaticResource ManaBrush}" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="1" Text="{Binding NameTrackerExtra}" Foreground="{Binding TextColor}" Background="{StaticResource RecordBrush}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding AmountText}" Foreground="{Binding TextColor}" Background="{StaticResource RecordBrush}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -116,7 +121,7 @@
             Sanctum Cards Drawn
         </Label>
 
-        <ListBox Grid.Row="7" Grid.Column="0" Name="lbSanctumCards" BorderThickness="0" Background="Transparent" BorderBrush="Transparent" Margin="10" Grid.IsSharedSizeScope="True">
+        <ListBox Grid.Row="7" Grid.Column="0" Name="lbSanctumCards" BorderThickness="0" Background="Transparent" BorderBrush="Transparent" Margin="5" Grid.IsSharedSizeScope="True">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -130,9 +135,9 @@
                         </Grid.ColumnDefinitions>
                         <!-- Assumes MVVM and you wish to bind to properties and commands -->
                         <!--<TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="AliceBlue" Background="{StaticResource mana}" FontSize="13" FontWeight="Bold"/>-->
-                        <TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="AliceBlue" Background="CornflowerBlue" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="AliceBlue"/>
-                        <TextBlock Grid.Column="2" Text="{Binding Amount}" Foreground="AliceBlue"/>
+                        <TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="{Binding TextColor}" Background="{StaticResource ManaBrush}" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="1" Text="{Binding NameTrackerExtra}" Foreground="{Binding TextColor}" Background="{StaticResource RecordBrush}"/>
+                        <TextBlock Grid.Column="3" Text="{Binding AmountText}" Foreground="{Binding TextColor}" Background="{StaticResource RecordBrush}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

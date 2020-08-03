@@ -39,7 +39,7 @@
 
         <!--A Style that extends the previous Label Style with an x:Key of UserInfoLabel-->
         <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label"
-           x:Key="UserInfoLabel">
+       x:Key="UserInfoLabel">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -47,14 +47,14 @@
 
         <!--A Style that extends the previous Label Style with an x:Key of HeaderLabel-->
         <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label"
-           x:Key="HeaderLabel">
+       x:Key="HeaderLabel">
             <Setter Property="FontSize" Value="19"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
 
         <!--A Style that extends the previous Label Style with an x:Key of UserInfoDataLabel-->
         <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label"
-           x:Key="UserInfoDataLabel">
+       x:Key="UserInfoDataLabel">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Foreground" Value="AliceBlue"/>
         </Style>
@@ -69,7 +69,7 @@
 
         <!--A Style that extends the previous TextBlock Style with an x:Key of UserNameText-->
         <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock"
-           x:Key="UserNameText">
+       x:Key="UserNameText">
             <Setter Property="FontSize" Value="26"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground">
@@ -165,8 +165,8 @@
 
             <Grid Grid.Row="0" Grid.Column="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*" />
                     <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="5*" />
                     <ColumnDefinition Width="4*" />
                     <ColumnDefinition Width="3*" />
                 </Grid.ColumnDefinitions>
@@ -281,9 +281,9 @@
                             </Grid.ColumnDefinitions>
                             <!-- Assumes MVVM and you wish to bind to properties and commands -->
                             <!--<TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="AliceBlue" Background="{StaticResource mana}" FontSize="13" FontWeight="Bold"/>-->
-                            <TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="AliceBlue" Background="CornflowerBlue" FontWeight="Bold"/>
-                            <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="AliceBlue"/>
-                            <TextBlock Grid.Column="2" Text="{Binding Amount}" Foreground="AliceBlue"/>
+                            <TextBlock Grid.Column="0" Text="{Binding Mana}" Foreground="{Binding TextColor}" Background="CornflowerBlue" FontWeight="Bold"/>
+                            <TextBlock Grid.Column="1" Text="{Binding NameMain}" Foreground="{Binding TextColor}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Amount}" Foreground="{Binding TextColor}"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -306,10 +306,10 @@
                 Weekend Ranked Event
             </Label>
             <Label Grid.Row="1" Grid.Column="0" Name="lblTest">
-                
-             </Label>
+
+            </Label>
             <TextBlock Grid.Row="2" Grid.Column="0" Name="lblException" TextWrapping="Wrap">
-                
+
             </TextBlock>
         </Grid>
     </Grid>
