@@ -7,11 +7,11 @@ Windows Application for deck tracking in Gods Unchained TCG
 
 **1. Download the .zip folder**
 
-The published version (ready to start - just unzip): [Published](https://github.com/coin-coop/godsunchained-deck-tracker/releases/download/0.0.1.1/Gods.Unchained.Deck.Tracker.v.0.0.1.1.zip)
+The published version (ready to start - just unzip): [Published](https://github.com/coin-coop/godsunchained-deck-tracker/releases/download/0.0.1.2/Gods.Unchained.Deck.Tracker.v.0.0.1.2.zip)
 
 **OR**
 
-The source code (you need to build it first by yourself for e.g. in Visual Studio 2019): [Source code](https://github.com/coin-coop/godsunchained-deck-tracker/archive/0.0.1.1.zip)
+The source code (you need to build it first by yourself for e.g. in Visual Studio 2019): [Source code](https://github.com/coin-coop/godsunchained-deck-tracker/archive/0.0.1.2.zip)
 
 **2. Launch the application by GodsUnchained-Deck-Tracker.exe**
 

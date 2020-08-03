@@ -62,9 +62,10 @@ namespace GodsUnchained_Deck_Tracker.Controller
         }
 
         private static void ReadUserIdAndInitalizeUser() {
-            StreamReader logReader = new StreamReader(logFilePath);
-
             if(user == null || user.Id == 0) {
+                FileStream logFileStream = new FileStream(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                StreamReader logReader = new StreamReader(logFileStream);
+
                 int id = 0;
 
                 string searchFor = "Sending RegisterPlayer msg... apolloID:";
@@ -76,6 +77,9 @@ namespace GodsUnchained_Deck_Tracker.Controller
                         break;
                     }
                 }
+
+                logReader.Close();
+                logFileStream.Close();
 
                 user = new User {
                     Id = id

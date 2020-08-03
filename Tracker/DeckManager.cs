@@ -72,7 +72,9 @@ namespace GodsUnchained_Deck_Tracker.Tracker
         }
 
         public static string GetDeckName() {
-            StreamReader logReader = new StreamReader(logFilePath);
+            FileStream logFileStream = new FileStream(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            StreamReader logReader = new StreamReader(logFileStream);
+
             string searchFor = "Loaded deck";
             string line;
             while ((line = logReader.ReadLine()) != null) {
@@ -81,7 +83,10 @@ namespace GodsUnchained_Deck_Tracker.Tracker
                     return splitStr.Last().Trim().Split("for player").First();
                 }
             }
+
             logReader.Close();
+            logFileStream.Close();
+
             return "";
         }
 
@@ -174,7 +179,9 @@ namespace GodsUnchained_Deck_Tracker.Tracker
             cardsInDeck = 30;
 
             if(File.Exists(logFilePath)) {
-                StreamReader logReader = new StreamReader(logFilePath);
+                FileStream logFileStream = new FileStream(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                StreamReader logReader = new StreamReader(logFileStream);
+
                 string line;
                 while ((line = logReader.ReadLine()) != null) {
                     if (line.Contains("Deck to Hand") || line.Contains("None to Hand")) {
@@ -190,6 +197,7 @@ namespace GodsUnchained_Deck_Tracker.Tracker
                 }
 
                 logReader.Close();
+                logFileStream.Close();
             }
 
             sortedDeckCards = new SortedDictionary<Card, int>();
