@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GodsUnchained_Deck_Tracker.Windows"
         mc:Ignorable="d"
-        Title="Gods Unchained Deck Tracker" Height="740" Width="1200" FontSize="16"
+        Title="Gods Unchained Deck Tracker" Height="840" Width="1200" FontSize="16"
         Loaded="Window_Loaded">
 
     <Window.Background>
@@ -13,6 +13,12 @@
     </Window.Background>
 
     <Window.Resources>
+        <LinearGradientBrush x:Key="ButtonBackgroundGradient"  StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#0b447c" Offset="0.0" />
+            <GradientStop Color="#0f1b27" Offset="0.5" />
+            <GradientStop Color="#0b447c" Offset="1.0" />
+        </LinearGradientBrush>
+
         <!--A Style that affects Menu-->
         <Style TargetType="Menu">
             <Setter Property="FontFamily" Value="Montserrat"/>
@@ -39,7 +45,7 @@
 
         <!--A Style that extends the previous Label Style with an x:Key of UserInfoLabel-->
         <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label"
-       x:Key="UserInfoLabel">
+           x:Key="UserInfoLabel">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -47,14 +53,14 @@
 
         <!--A Style that extends the previous Label Style with an x:Key of HeaderLabel-->
         <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label"
-       x:Key="HeaderLabel">
+           x:Key="HeaderLabel">
             <Setter Property="FontSize" Value="19"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
 
         <!--A Style that extends the previous Label Style with an x:Key of UserInfoDataLabel-->
         <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label"
-       x:Key="UserInfoDataLabel">
+           x:Key="UserInfoDataLabel">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Foreground" Value="AliceBlue"/>
         </Style>
@@ -69,7 +75,7 @@
 
         <!--A Style that extends the previous TextBlock Style with an x:Key of UserNameText-->
         <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock"
-       x:Key="UserNameText">
+           x:Key="UserNameText">
             <Setter Property="FontSize" Value="26"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground">
@@ -240,9 +246,9 @@
                     Decks
                 </Label>
 
-                <StackPanel Grid.Row="1" Grid.Column="0" Name="spDecks">
-
-                </StackPanel>
+                <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Hidden">
+                    <StackPanel Name="spDecks"/>
+                </ScrollViewer>
             </Grid>
         </Grid>
 
@@ -253,6 +259,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
             <Border BorderThickness="2" BorderBrush="#c6a052" Grid.ColumnSpan="1" Grid.RowSpan="3"/>
@@ -260,7 +267,8 @@
             <Label Grid.Row="0" Grid.Column="0" Name="lblDeckTitle" Style="{StaticResource HeaderLabel}">
                 Choose a deck from the list
             </Label>
-            <ListBox Grid.Row="1" Grid.Column="0" Name="lbCards" Margin="10" Grid.IsSharedSizeScope="True" Background="#0f1b27">
+
+            <ListBox Grid.Row="1" Grid.Column="0" Name="lbCards" Margin="10" Grid.IsSharedSizeScope="True" Background="#0f1b27" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                 <ListBox.Resources>
                     <Style TargetType="Border">
                         <Setter Property="BorderBrush" Value="#c6a052"/>
@@ -288,6 +296,23 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+
+            <Grid Grid.Row="2" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="0" Grid.Column="1" Name="btnStartTracker" Margin="10" Content="Start Tracker" Click="StartTrackerButton_Click" IsEnabled="False" Foreground="LightSkyBlue" Background="{StaticResource ButtonBackgroundGradient}"/>
+
+                <Button Grid.Row="0" Grid.Column="3" Name="btnStopTracker" Margin="10" Content="Stop Tracker" Click="StopTrackerButton_Click" IsEnabled="False" Foreground="LightSkyBlue" Background="{StaticResource ButtonBackgroundGradient}"/>
+            </Grid>
         </Grid>
 
         <Grid Grid.Column="2" Grid.Row="1">
@@ -306,10 +331,10 @@
                 Weekend Ranked Event
             </Label>
             <Label Grid.Row="1" Grid.Column="0" Name="lblTest">
-
-            </Label>
+                
+             </Label>
             <TextBlock Grid.Row="2" Grid.Column="0" Name="lblException" TextWrapping="Wrap">
-
+                
             </TextBlock>
         </Grid>
     </Grid>

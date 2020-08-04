@@ -22,33 +22,21 @@ namespace GodsUnchained_Deck_Tracker.Windows
     public partial class MainWindow : Window
     {
 
-        private DeckTrackerPlayer deckTrackerPlayer;
-        private DeckTrackerOpponent deckTrackerOpponent;
+        private DeckTrackerPlayer deckTrackerPlayer = new DeckTrackerPlayer();
+        private DeckTrackerOpponent deckTrackerOpponent = new DeckTrackerOpponent();
+
+        private DispatcherTimer timerUpdate;
+
         private Settings settings;
-        private Deck selectedDeck;
 
         public MainWindow() {
             InitializeComponent();
 
             try {
-                deckTrackerPlayer = new DeckTrackerPlayer();
-                deckTrackerPlayer.Show();
-                deckTrackerPlayer.Topmost = true;
-
-                /*deckTrackerOpponent = new DeckTrackerOpponent();
-                deckTrackerOpponent.Show();
-                deckTrackerOpponent.Topmost = true;*/
-
                 //if (Properties.Settings.Default.logFilePath.Contains("C:\\Users\\YourUser\\")) {
                 settings = new Settings();
                 settings.ShowDialog();
                 //}
-
-                DispatcherTimer timerUpdate = new DispatcherTimer {
-                    Interval = TimeSpan.FromSeconds(12)
-                };
-                timerUpdate.Tick += UpdateDeck;
-                timerUpdate.Start();
 
                 DispatcherTimer timerDeckList = new DispatcherTimer {
                     Interval = TimeSpan.FromMinutes(1)
@@ -77,11 +65,11 @@ namespace GodsUnchained_Deck_Tracker.Windows
                 DisplayUserInfo(UserController.GetUser(userDataResult, userRankResult));
 
                 CardPrototypeManager.GetPrototypesAsync();
-                DeckManager.GetDecksPlayedByPlayer();
+                DeckController.GetDecksPlayedByPlayer();
 
-                List<Deck> decks = DeckManager.GetDecks();
+                List<Deck> decks = DeckController.GetDecks();
                 if (decks?.Any() == true) {
-                    selectedDeck = decks.Last();
+                    PlayerDeckTracker.GetInstance.SelectedDeck = decks.Last();
                 }
 
                 AddDeckButtonsToStackPanel();
@@ -93,12 +81,7 @@ namespace GodsUnchained_Deck_Tracker.Windows
         private void UpdateDeck(object sender, EventArgs e) {
             //deckTrackerOpponent.lblDeckTitle.Content = "Current Deck Title";
             try {
-                DeckManager.UpdateDeck(selectedDeck);
-                deckTrackerPlayer.lblDeckTitle.Content = DeckManager.GetDeckName();
-                deckTrackerPlayer.lblCardsCount.Content = "Remaining Cards: " + DeckManager.GetCardsInDeck().ToString();
-                deckTrackerPlayer.lbCards.ItemsSource = GetObservableCardViews(DeckManager.GetCurrentDeckCards());
-                deckTrackerPlayer.lbExtraCards.ItemsSource = DeckManager.GetExtraDrawnCards();
-                deckTrackerPlayer.lbSanctumCards.ItemsSource = DeckManager.GetSanctumDrawnCards();
+                UpdateDeckTracker();
             } catch (Exception ex) {
                 lblException.Text = ex.Message + ex.StackTrace;
             }
@@ -122,7 +105,7 @@ namespace GodsUnchained_Deck_Tracker.Windows
         }
 
         private void AddDeckButtonsToStackPanel() {
-            List<Deck> decks = DeckManager.GetDecks();
+            List<Deck> decks = DeckController.GetDecks();
             if (decks.Count > spDecks.Children.Count) {
                 spDecks.Children.Clear();
                 foreach (Deck deck in decks) {
@@ -157,14 +140,53 @@ namespace GodsUnchained_Deck_Tracker.Windows
             Button button = sender as Button;
             button.Foreground = Brushes.DodgerBlue;
 
-            Deck deck = button.Tag as Deck;
+            PlayerDeckTracker.GetInstance.SelectedDeck = button.Tag as Deck;
 
-            selectedDeck = deck;
+            deckTrackerPlayer.lbCards.ItemsSource = GetObservableCardViews(PlayerDeckTracker.GetInstance.GetSelectedDeckCards());
 
-            deckTrackerPlayer.lbCards.ItemsSource = GetObservableCardViews(DeckManager.GetCardsView(selectedDeck.Cards));
+            lblDeckTitle.Content = PlayerDeckTracker.GetInstance.SelectedDeck.Name;
+            lbCards.ItemsSource = GetObservableCardViews(PlayerDeckTracker.GetInstance.GetSelectedDeckCards());
 
-            lblDeckTitle.Content = deck.Name;
-            lbCards.ItemsSource = GetObservableCardViews(DeckManager.GetCardsView(deck.Cards));
+            btnStartTracker.IsEnabled = true;
+        }
+
+        private void StartTrackerButton_Click(object sender, RoutedEventArgs e) {
+            deckTrackerPlayer.Show();
+            deckTrackerPlayer.Topmost = true;
+
+            /*deckTrackerOpponent.Show();
+            deckTrackerOpponent.Topmost = true;*/
+
+            UpdateDeckTracker();
+
+            timerUpdate = new DispatcherTimer {
+                Interval = TimeSpan.FromSeconds(12)
+            };
+            timerUpdate.Tick += UpdateDeck;
+            timerUpdate.Start();
+
+            btnStartTracker.IsEnabled = false;
+            btnStopTracker.IsEnabled = true;
+        }
+
+        private void StopTrackerButton_Click(object sender, RoutedEventArgs e) {
+            deckTrackerPlayer.Hide();
+
+            timerUpdate.Stop();
+
+            btnStartTracker.IsEnabled = true;
+            btnStopTracker.IsEnabled = false;
+        }
+
+        private void UpdateDeckTracker() {
+            PlayerDeckTracker playerDeckTracker = PlayerDeckTracker.GetInstance;
+
+            playerDeckTracker.UpdateDeck();
+            deckTrackerPlayer.lblDeckTitle.Content = playerDeckTracker.GetDeckName();
+            deckTrackerPlayer.lblCardsCount.Content = "Remaining Cards: " + playerDeckTracker.CardsInDeck.ToString();
+            deckTrackerPlayer.lbCards.ItemsSource = GetObservableCardViews(playerDeckTracker.GetCurrentDeckCards());
+            deckTrackerPlayer.lbExtraCards.ItemsSource = playerDeckTracker.GetExtraDrawnCards();
+            deckTrackerPlayer.lbSanctumCards.ItemsSource = playerDeckTracker.GetSanctumDrawnCards();
         }
 
         private ObservableCollection<CardView> GetObservableCardViews(List<CardView> cardsView) {

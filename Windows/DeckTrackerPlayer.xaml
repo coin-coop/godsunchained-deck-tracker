@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GodsUnchained_Deck_Tracker.Windows"
         mc:Ignorable="d"
-        Title="Deck Tracker" Height="1000" Width="320" Top="0" FontSize="14"
+        Title="Deck Tracker" Height="840" Width="320" Top="0" FontSize="14"
         AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="Manual" ResizeMode="CanResize">
 
     <Window.Background>
@@ -25,6 +25,17 @@
             <Setter Property="Foreground" Value="LightSkyBlue"/>
         </Style>
 
+        <!--A Style that affects all ListBoxes-->
+        <Style TargetType="ListBox">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Grid.IsSharedSizeScope" Value="True"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+        </Style>
+
         <!--A Style that affects all TextBlocks-->
         <Style TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Left" />
@@ -38,7 +49,7 @@
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
-
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -49,24 +60,24 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="120"/>
+            <RowDefinition Height="110"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="120"/>
+            <RowDefinition Height="110"/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Name="lblDeckTitle" FontSize="18" FontWeight="Bold">
-
+            
         </Label>
 
         <Label Grid.Row="1" Grid.Column="0" Name="lblCardsCount">
-
+            
         </Label>
 
         <Label Grid.Row="2" Grid.Column="0" Name="lblDeckCards" FontWeight="Bold">
             Cards In Deck
         </Label>
 
-        <ListBox Grid.Row="3" Grid.Column="0" Name="lbCards" BorderThickness="0" Background="Transparent" BorderBrush="Transparent" Margin="5" Grid.IsSharedSizeScope="True">
+        <ListBox Grid.Row="3" Grid.Column="0" Name="lbCards">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -95,7 +106,7 @@
             Extra Cards Drawn
         </Label>
 
-        <ListBox Grid.Row="5" Grid.Column="0" Name="lbExtraCards" BorderThickness="0" Background="Transparent" BorderBrush="Transparent" Margin="5" Grid.IsSharedSizeScope="True">
+        <ListBox Grid.Row="5" Grid.Column="0" Name="lbExtraCards">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -121,7 +132,7 @@
             Sanctum Cards Drawn
         </Label>
 
-        <ListBox Grid.Row="7" Grid.Column="0" Name="lbSanctumCards" BorderThickness="0" Background="Transparent" BorderBrush="Transparent" Margin="5" Grid.IsSharedSizeScope="True">
+        <ListBox Grid.Row="7" Grid.Column="0" Name="lbSanctumCards">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
