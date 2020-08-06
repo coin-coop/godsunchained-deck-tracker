@@ -27,16 +27,18 @@ namespace GodsUnchained_Deck_Tracker.Windows
 
         private DispatcherTimer timerUpdate;
 
-        private Settings settings;
+        private DeckCode deckCode;
+        private Settings settings = new Settings();
 
         public MainWindow() {
             InitializeComponent();
 
             try {
-                //if (Properties.Settings.Default.logFilePath.Contains("C:\\Users\\YourUser\\")) {
-                settings = new Settings();
-                settings.ShowDialog();
-                //}
+                if (Properties.Settings.Default.logFilePath.Contains("C:\\Users\\YourUser\\")) {
+                    settings = new Settings();
+                    settings.txtLogFilePath.Text = Properties.Settings.Default.logFilePath;
+                    settings.ShowDialog();
+                }
 
                 DispatcherTimer timerDeckList = new DispatcherTimer {
                     Interval = TimeSpan.FromMinutes(1)
@@ -76,6 +78,24 @@ namespace GodsUnchained_Deck_Tracker.Windows
             } catch (Exception ex) {
                 lblException.Text = ex.Message + ex.StackTrace;
             }
+        }
+
+        private void ImportDeckItemMenu_Click(object sender, RoutedEventArgs e) {
+            deckCode = new DeckCode();
+
+            if (Clipboard.ContainsText(TextDataFormat.Text)) {
+                deckCode.txtDeckCode.Text = Clipboard.GetText(TextDataFormat.Text);
+            }
+
+            deckCode.ShowDialog();
+
+            AddDeckButtonsToStackPanel();
+        }
+
+        private void SettingsLogItemMenu_Click(object sender, RoutedEventArgs e) {
+            settings = new Settings();
+            settings.txtLogFilePath.Text = Properties.Settings.Default.logFilePath;
+            settings.ShowDialog();
         }
 
         private void UpdateDeck(object sender, EventArgs e) {

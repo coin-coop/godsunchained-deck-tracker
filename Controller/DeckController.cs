@@ -31,18 +31,13 @@ namespace GodsUnchained_Deck_Tracker.Controller
                 string[] splitDeck = line.Split("::");
                 string god = splitDeck.First();
                 string cards = splitDeck.Last();
-                string[] cardIds = cards.Split(",");
-                cardIds = cardIds.Take(cardIds.Count() - 1).ToArray();
 
-                List<Card> cardList = new List<Card>();
-                foreach (string cardId in cardIds) {
-                    Card card = new Card("", cardId, true);
-                    cardList.Add(card);
-                }
+                List<Card> cardList = GetCards(cards);
 
                 i++;
                 decks.Add(new Deck("Deck " + i.ToString(), god, cardList));
             }
+            decksReader.Close();
 
             return decks;
         }
@@ -69,6 +64,11 @@ namespace GodsUnchained_Deck_Tracker.Controller
             if (File.ReadLines(matchesFilePath).Count() < total) {
                 ReadMatchesFromAPI(total, timestamp);
             }
+        }
+
+        public static void ImportDeckFromCode(string deckCode) {
+            string[] deck = deckCode.Split(new[] { ',' }, 2);
+            SaveDeckToFile(deck.First(), deck.Last());
         }
 
         private static async void ReadMatchesFromAPI(int total, string timestamp) {
@@ -127,18 +127,41 @@ namespace GodsUnchained_Deck_Tracker.Controller
                 foreach (JToken card in cards) {
                     cardsStr += card + ",";
                 }
+                if(cardsStr.Length > 1) {
+                    cardsStr = cardsStr.Remove(cardsStr.Length - 1);
+                }
 
-                if (UserController.GetUser().Id == userID && !File.ReadAllText(decksFilePath).Contains(god + "::" + cardsStr)) {
-                    //add check if deck is not already inserted
-                    StreamWriter decksWriter = File.AppendText(decksFilePath);
-                    decksWriter.WriteLine(god + "::" + cardsStr);
-                    decksWriter.Close();
+                if (UserController.GetUser().Id == userID) {
+                    SaveDeckToFile(god, cardsStr);
                 }
 
                 value += cardsStr;
 
                 matches[(string) record["game_id"]] = value;
             }
+        }
+
+        private static void SaveDeckToFile(string god, string cardsStr) {
+            if (!File.ReadAllText(decksFilePath).Contains(god + "::" + cardsStr)) {
+                StreamWriter decksWriter = File.AppendText(decksFilePath);
+                decksWriter.WriteLine(god + "::" + cardsStr);
+                decksWriter.Close();
+            }
+        }
+
+        private static List<Card> GetCards(string cards) {
+            string[] cardIds = cards.Split(",");
+
+            List<Card> cardList = new List<Card>();
+
+            foreach (string cardId in cardIds) {
+                if (cardId != "") {
+                    Card card = new Card("", cardId, true);
+                    cardList.Add(card);
+                }
+            }
+
+            return cardList;
         }
     }
 }

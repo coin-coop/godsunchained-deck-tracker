@@ -32,15 +32,18 @@ namespace GodsUnchained_Deck_Tracker.Tracker
             if (currentCards) {
                 foreach (Card card in selectedDeck.Cards) {
                     if (!sortedCards.Exists(item => item.Prototype.Name == card.Prototype.Name)) {
-                        CardView cardView = new CardView(card) {
-                            Amount = 0,
-                            TextColor = "LightSteelBlue"
-                        };
-                        cardsView.Add(cardView);
+                        int index = cardsView.FindIndex(item => item.Name == card.Prototype.Name);
+                        if (index < 0) {
+                            CardView cardView = new CardView(card) {
+                                Amount = 0,
+                                TextColor = "LightSteelBlue"
+                            };
+                            cardsView.Add(cardView);
+                        }
                     }
-                }
 
-                cardsView = cardsView.OrderBy(o => o.Mana).ThenBy(o => o.Name).ToList();
+                    cardsView = cardsView.OrderBy(o => o.Mana).ThenBy(o => o.Name).ToList();
+                }
             }
 
             return cardsView;

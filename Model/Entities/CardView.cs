@@ -26,7 +26,7 @@ namespace GodsUnchained_Deck_Tracker.Model.Entities
         }
 
         public string NameTrackerExtra {
-            get => Name.PadRight(52, ' ').PadLeft(54, ' ');
+            get => Name.PadRight(48, ' ').PadLeft(50, ' ');
         }
 
         public string Mana { get; set; }
