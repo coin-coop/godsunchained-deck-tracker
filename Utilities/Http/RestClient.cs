@@ -1,3 +1,4 @@
+﻿using log4net;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
@@ -7,6 +8,8 @@ namespace GodsUnchained_Deck_Tracker.Utilities.Http
 {
     public static class RestClient
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private static readonly string apiBasicUri = "https://api.godsunchained.com/v0/";
         private static readonly HttpClient client = new HttpClient();
 
@@ -20,8 +23,8 @@ namespace GodsUnchained_Deck_Tracker.Utilities.Http
                 result.EnsureSuccessStatusCode();
                 callResult = await result.Content.ReadAsStringAsync();
             } catch (Exception e) {
-                Debug.WriteLine(e.Message);
-                Debug.WriteLine(e.StackTrace);
+                log.Error(e.Message);
+                log.Error(e.StackTrace);
             }
             return callResult;
         }

@@ -2,6 +2,7 @@
 using GodsUnchained_Deck_Tracker.Model.Entities;
 using GodsUnchained_Deck_Tracker.Tracker;
 using GodsUnchained_Deck_Tracker.Utilities;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +22,8 @@ namespace GodsUnchained_Deck_Tracker.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private List<CardView> cardViews = new List<CardView>();
 
         private DeckTrackerPlayer deckTrackerPlayer = new DeckTrackerPlayer();
@@ -39,6 +42,8 @@ namespace GodsUnchained_Deck_Tracker.Windows
         public MainWindow() {
             InitializeComponent();
 
+            log.Info("In MainWindow.xaml");
+
             try {
                 if (Properties.Settings.Default.logFilePath.Contains("C:\\Users\\YourUser\\")) {
                     logPathSettings = new LogPathSettings();
@@ -55,7 +60,9 @@ namespace GodsUnchained_Deck_Tracker.Windows
                 warningMessage = new WarningMessage();
                 warningMessage.txtWarningMessage.Text = e.Message;
                 warningMessage.Show();
-                lblException.Text = e.StackTrace;
+
+                log.Error(e.Message);
+                log.Error(e.StackTrace);
             }
         }
 
@@ -92,7 +99,9 @@ namespace GodsUnchained_Deck_Tracker.Windows
                 warningMessage = new WarningMessage();
                 warningMessage.txtWarningMessage.Text = ex.Message;
                 warningMessage.Show();
-                lblException.Text = ex.StackTrace;
+
+                log.Error(ex.Message);
+                log.Error(ex.StackTrace);
             }
         }
 
@@ -141,7 +150,8 @@ namespace GodsUnchained_Deck_Tracker.Windows
             try {
                 UpdateDeckTracker();
             } catch (Exception ex) {
-                lblException.Text = ex.Message + ex.StackTrace;
+                log.Error(ex.Message);
+                log.Error(ex.StackTrace);
             }
         }
 
