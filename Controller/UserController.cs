@@ -1,4 +1,4 @@
-﻿using GodsUnchained_Deck_Tracker.Model.Entities;
+using GodsUnchained_Deck_Tracker.Model.Entities;
 using GodsUnchained_Deck_Tracker.Utilities.Http;
 using Newtonsoft.Json.Linq;
 using System;

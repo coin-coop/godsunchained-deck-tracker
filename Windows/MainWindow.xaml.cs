@@ -21,6 +21,7 @@ namespace GodsUnchained_Deck_Tracker.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<CardView> cardViews = new List<CardView>();
 
         private DeckTrackerPlayer deckTrackerPlayer = new DeckTrackerPlayer();
         private DeckTrackerOpponent deckTrackerOpponent = new DeckTrackerOpponent();
@@ -28,16 +29,21 @@ namespace GodsUnchained_Deck_Tracker.Windows
         private DispatcherTimer timerUpdate;
 
         private DeckCode deckCode;
-        private Settings settings = new Settings();
+        private LogPathSettings logPathSettings;
+        private AccountSettings accountSettings;
+
+        private CardsCollection cardsCollection;
+
+        private WarningMessage warningMessage;
 
         public MainWindow() {
             InitializeComponent();
 
             try {
                 if (Properties.Settings.Default.logFilePath.Contains("C:\\Users\\YourUser\\")) {
-                    settings = new Settings();
-                    settings.txtLogFilePath.Text = Properties.Settings.Default.logFilePath;
-                    settings.ShowDialog();
+                    logPathSettings = new LogPathSettings();
+                    logPathSettings.txtLogFilePath.Text = Properties.Settings.Default.logFilePath;
+                    logPathSettings.ShowDialog();
                 }
 
                 DispatcherTimer timerDeckList = new DispatcherTimer {
@@ -46,7 +52,10 @@ namespace GodsUnchained_Deck_Tracker.Windows
                 timerDeckList.Tick += UpdateDeckList;
                 timerDeckList.Start();
             } catch (Exception e) {
-                lblException.Text = e.Message + e.StackTrace;
+                warningMessage = new WarningMessage();
+                warningMessage.txtWarningMessage.Text = e.Message;
+                warningMessage.Show();
+                lblException.Text = e.StackTrace;
             }
         }
 
@@ -66,7 +75,7 @@ namespace GodsUnchained_Deck_Tracker.Windows
 
                 DisplayUserInfo(UserController.GetUser(userDataResult, userRankResult));
 
-                CardPrototypeManager.GetPrototypesAsync();
+                CardPrototypeController.GetPrototypesAsync();
                 DeckController.GetDecksPlayedByPlayer();
 
                 List<Deck> decks = DeckController.GetDecks();
@@ -75,8 +84,15 @@ namespace GodsUnchained_Deck_Tracker.Windows
                 }
 
                 AddDeckButtonsToStackPanel();
+
+                Task<List<CardView>> cardViewTask = CardController.GetCardViews();
+                await cardViewTask;
+                cardViews = cardViewTask.Result;
             } catch (Exception ex) {
-                lblException.Text = ex.Message + ex.StackTrace;
+                warningMessage = new WarningMessage();
+                warningMessage.txtWarningMessage.Text = ex.Message;
+                warningMessage.Show();
+                lblException.Text = ex.StackTrace;
             }
         }
 
@@ -92,10 +108,32 @@ namespace GodsUnchained_Deck_Tracker.Windows
             AddDeckButtonsToStackPanel();
         }
 
+        private void LoadCardsItemMenu_Click(object sender, RoutedEventArgs e) {
+            if(Properties.Settings.Default.userAddress.Equals("0x0")) {
+                warningMessage = new WarningMessage();
+                warningMessage.txtWarningMessage.Text = "User address is not setup. Cards couldn't be loaded.";
+                warningMessage.Show();
+            } else {
+                CardController.GetCards(Properties.Settings.Default.userAddress);
+            }
+        }
+
+        private void ViewCardsItemMenu_Click(object sender, RoutedEventArgs e) {
+            cardsCollection = new CardsCollection();
+            cardsCollection.lvCards.ItemsSource = cardViews;
+            cardsCollection.Show();
+        }
+
+        private void SettingsAccountItemMenu_Click(object sender, RoutedEventArgs e) {
+            accountSettings = new AccountSettings();
+            accountSettings.txtUserAddress.Text = Properties.Settings.Default.userAddress;
+            accountSettings.ShowDialog();
+        }
+
         private void SettingsLogItemMenu_Click(object sender, RoutedEventArgs e) {
-            settings = new Settings();
-            settings.txtLogFilePath.Text = Properties.Settings.Default.logFilePath;
-            settings.ShowDialog();
+            logPathSettings = new LogPathSettings();
+            logPathSettings.txtLogFilePath.Text = Properties.Settings.Default.logFilePath;
+            logPathSettings.ShowDialog();
         }
 
         private void UpdateDeck(object sender, EventArgs e) {

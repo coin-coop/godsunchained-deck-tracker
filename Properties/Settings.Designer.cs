@@ -35,5 +35,17 @@ namespace GodsUnchained_Deck_Tracker.Properties {
                 this["logFilePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0x0")]
+        public string userAddress {
+            get {
+                return ((string)(this["userAddress"]));
+            }
+            set {
+                this["userAddress"] = value;
+            }
+        }
     }
 }

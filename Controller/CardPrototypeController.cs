@@ -7,15 +7,29 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GodsUnchained_Deck_Tracker.Utilities
+namespace GodsUnchained_Deck_Tracker.Controller
 {
-    public static class CardPrototypeManager
+    public class CardPrototypeController : AccessController
     {
+        private static CardPrototypeController instance = null;
+        private static readonly object mutex = new object();
+
         private static readonly string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
         private static readonly string protytpesFilePath = projectDirectory + "\\..\\Resources\\Files\\prototypes.txt";
         //private static readonly string projectDirectory = Environment.CurrentDirectory;
         //private static readonly string protytpesFilePath = projectDirectory + "\\Resources\\Files\\prototypes.txt";
         private static Dictionary<string, string> prototypes;
+
+        public static CardPrototypeController GetInstance {
+            get {
+                lock (mutex) {
+                    if (instance == null) {
+                        instance = new CardPrototypeController();
+                    }
+                    return instance;
+                }
+            }
+        }
 
         public static Prototype GetPrototypeByName(string name) {
             return GetPrototype(name);
@@ -28,12 +42,9 @@ namespace GodsUnchained_Deck_Tracker.Utilities
         public async static void GetPrototypesAsync() {
             prototypes = new Dictionary<string, string>();
 
-            Task<string> prototypesTask = RestClient.Get<string>($"proto");
-            await prototypesTask;
-            string prototypesResult = prototypesTask.Result;
-
-            JObject prototypesObject = JObject.Parse(prototypesResult);
-            int total = (int) prototypesObject.GetValue("total");
+            Task<int> totalRecordsTask = GetTotalRecords($"proto");
+            await totalRecordsTask;
+            int total = totalRecordsTask.Result;
 
             if(!File.Exists(protytpesFilePath)) {
                 File.Create(protytpesFilePath).Dispose();

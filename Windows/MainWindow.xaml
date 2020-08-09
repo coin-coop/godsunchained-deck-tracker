@@ -13,13 +13,6 @@
     </Window.Background>
 
     <Window.Resources>
-        <LinearGradientBrush x:Key="ButtonBackgroundGradient"  StartPoint="0.5,0" EndPoint="0.5,1">
-            <GradientStop Color="#0b447c" Offset="0.0" />
-            <GradientStop Color="#0f1b27" Offset="0.4" />
-            <GradientStop Color="#0f1b27" Offset="0.6" />
-            <GradientStop Color="#0b447c" Offset="1.0" />
-        </LinearGradientBrush>
-
         <!--A Style that affects Menu-->
         <Style TargetType="Menu">
             <Setter Property="FontFamily" Value="Montserrat"/>
@@ -140,12 +133,16 @@
                 <MenuItem Header="_Rename" IsCheckable="false" />
                 <MenuItem Header="_Archive" IsCheckable="false" />
                 <MenuItem Header="_Delete" IsCheckable="false" />
+                <MenuItem Header="_Import">
+                    <MenuItem Header="_From deck code" IsCheckable="false" Click="ImportDeckItemMenu_Click" Background="{StaticResource ButtonBackgroundGradient}"/>
+                </MenuItem>
+                <MenuItem Header="_Export">
+                    <MenuItem Header="_To clipboard" IsCheckable="false" />
+                </MenuItem>
             </MenuItem>
-            <MenuItem Header="_Import">
-                <MenuItem Header="_From deck code" IsCheckable="false" Click="ImportDeckItemMenu_Click" Background="{StaticResource ButtonBackgroundGradient}"/>
-            </MenuItem>
-            <MenuItem Header="_Export">
-                <MenuItem Header="_To clipboard" IsCheckable="false" />
+            <MenuItem Header="_Cards">
+                <MenuItem Header="_Load" IsCheckable="false" Click="LoadCardsItemMenu_Click" Background="{StaticResource ButtonBackgroundGradient}"/>
+                <MenuItem Header="_View" IsCheckable="false" Click="ViewCardsItemMenu_Click" Background="{StaticResource ButtonBackgroundGradient}"/>
             </MenuItem>
             <MenuItem Header="_Stats">
                 <MenuItem Header="_Ranked" IsCheckable="false" />
@@ -155,7 +152,7 @@
                 <MenuItem Header="_First" IsCheckable="false" />
             </MenuItem>
             <MenuItem Header="_Options">
-                <MenuItem Header="_Account" IsCheckable="false" />
+                <MenuItem Header="_Account" IsCheckable="false" Click="SettingsAccountItemMenu_Click" Background="{StaticResource ButtonBackgroundGradient}"/>
                 <MenuItem Header="_Log path" IsCheckable="false" Click="SettingsLogItemMenu_Click" Background="{StaticResource ButtonBackgroundGradient}"/>
             </MenuItem>
         </Menu>

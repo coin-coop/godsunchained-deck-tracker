@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Input;
 
 namespace GodsUnchained_Deck_Tracker.Windows

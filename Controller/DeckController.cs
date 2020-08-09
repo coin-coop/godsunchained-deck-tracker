@@ -10,8 +10,11 @@ using System.Threading.Tasks;
 
 namespace GodsUnchained_Deck_Tracker.Controller
 {
-    public static class DeckController
+    public class DeckController : AccessController
     {
+        private static DeckController instance = null;
+        private static readonly object mutex = new object();
+
         private static readonly string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
         //private static readonly string projectDirectory = Environment.CurrentDirectory;
         private static readonly string decksFilePath = projectDirectory + "\\..\\Resources\\Files\\decks.txt";
@@ -20,6 +23,17 @@ namespace GodsUnchained_Deck_Tracker.Controller
         //private static readonly string matchesFilePath = projectDirectory + "\\Resources\\Files\\matches.txt";
 
         private static Dictionary<string, string> matches;
+
+        public static DeckController GetInstance {
+            get {
+                lock (mutex) {
+                    if (instance == null) {
+                        instance = new DeckController();
+                    }
+                    return instance;
+                }
+            }
+        }
 
         public static List<Deck> GetDecks() {
             StreamReader decksReader = new StreamReader(decksFilePath);
@@ -49,13 +63,9 @@ namespace GodsUnchained_Deck_Tracker.Controller
             matches = new Dictionary<string, string>();
             string timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString();
 
-            Task<string> matchesTask = RestClient.Get<string>($"match?start_time=1593474160-{timestamp}");
-            await matchesTask;
-
-            string matchesResult = matchesTask.Result;
-
-            JObject prototypesObject = JObject.Parse(matchesResult);
-            int total = (int) prototypesObject.GetValue("total");
+            Task<int> totalRecordsTask = GetTotalRecords($"match?start_time=1593474160-{timestamp}");
+            await totalRecordsTask;
+            int total = totalRecordsTask.Result;
 
             if (!File.Exists(matchesFilePath)) {
                 File.Create(matchesFilePath).Dispose();

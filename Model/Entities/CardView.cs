@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Windows.Media.Imaging;
 
 namespace GodsUnchained_Deck_Tracker.Model.Entities
 {
@@ -10,7 +11,6 @@ namespace GodsUnchained_Deck_Tracker.Model.Entities
         public CardView(Card card) {
             Name = card.Prototype.Name;
             Mana = card.Prototype.Mana.ToString().PadLeft(3, ' ').PadRight(4, ' ');
-
             Amount = 1;
             TextColor = "AliceBlue";
         }
@@ -31,7 +31,7 @@ namespace GodsUnchained_Deck_Tracker.Model.Entities
 
         public string Mana { get; set; }
 
-        public string Image { get; set; }
+        public BitmapImage Image { get; set; }
 
         public int Amount { get; set; }
 

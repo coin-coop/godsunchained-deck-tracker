@@ -13,17 +13,15 @@ using System.Windows.Shapes;
 namespace GodsUnchained_Deck_Tracker.Windows
 {
     /// <summary>
-    /// Interaction logic for Settings.xaml
+    /// Interaction logic for WarningMessage.xaml
     /// </summary>
-    public partial class Settings : Window
+    public partial class WarningMessage : Window
     {
-        public Settings() {
+        public WarningMessage() {
             InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
-            Properties.Settings.Default.logFilePath = txtLogFilePath.Text;
-            Properties.Settings.Default.Save();
             this.Close();
         }
     }

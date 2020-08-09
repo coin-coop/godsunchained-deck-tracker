@@ -1,5 +1,5 @@
-﻿using GodsUnchained_Deck_Tracker.Model.Enums;
-using GodsUnchained_Deck_Tracker.Utilities;
+﻿using GodsUnchained_Deck_Tracker.Controller;
+using GodsUnchained_Deck_Tracker.Model.Enums;
 using System;
 
 namespace GodsUnchained_Deck_Tracker.Model.Entities
@@ -17,14 +17,14 @@ namespace GodsUnchained_Deck_Tracker.Model.Entities
 
         public Card(string name, bool getPrototype) {
             if (getPrototype) {
-                Prototype = CardPrototypeManager.GetPrototypeByName(name);
+                Prototype = CardPrototypeController.GetPrototypeByName(name);
             }
         }
 
         //TODO: make this constructor better
         public Card(string name, string prototypeId, bool getPrototype) {
             if (getPrototype) {
-                Prototype = CardPrototypeManager.GetPrototypeById(prototypeId);
+                Prototype = CardPrototypeController.GetPrototypeById(prototypeId);
             }
         }
 

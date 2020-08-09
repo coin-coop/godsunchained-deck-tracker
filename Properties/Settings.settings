@@ -5,5 +5,8 @@
     <Setting Name="logFilePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\YourUser\AppData\LocalLow\FuelGames\Gods Unchained - Version 0.24.1.544(2020.7.23) - Built at 20_58_23\output_log_simple.txt</Value>
     </Setting>
+    <Setting Name="userAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0x0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

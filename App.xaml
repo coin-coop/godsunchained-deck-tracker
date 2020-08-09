@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:GodsUnchained_Deck_Tracker"
              StartupUri="Windows/MainWindow.xaml">
     <Application.Resources>
-        <BitmapImage x:Key="d_death" UriSource="pack://application:,,,/Resources/Images/Decks/d_death.png" />
+        <LinearGradientBrush x:Key="ButtonBackgroundGradient"  StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#0b447c" Offset="0.0" />
+            <GradientStop Color="#0f1b27" Offset="0.4" />
+            <GradientStop Color="#0f1b27" Offset="0.6" />
+            <GradientStop Color="#0b447c" Offset="1.0" />
+        </LinearGradientBrush>
     </Application.Resources>
 </Application>
