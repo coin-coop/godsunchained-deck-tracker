@@ -55,6 +55,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Update="Resources\Files\cards.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Files\decks.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
