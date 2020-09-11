@@ -18,8 +18,8 @@ namespace GodsUnchained_Deck_Tracker.Controller
         private static CardController instance = null;
         private static readonly object mutex = new object();
 
-        private static readonly string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
         private static readonly string cardsFilePath = projectDirectory + "\\..\\Resources\\Files\\cards.txt";
+        //private static readonly string cardsFilePath = projectDirectory + "\\Resources\\Files\\cards.txt";
 
         private static List<string> cards;
 

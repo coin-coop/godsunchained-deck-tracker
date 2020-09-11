@@ -92,9 +92,10 @@ namespace GodsUnchained_Deck_Tracker.Tracker
                         string found = line.Split("EffectSolver.MoveCard - ").Last();
                         if (line.Contains("Deck to Hand")) {
                             CardsInDeck -= 1;
-                            UpdateDrawnCards(found, " moved from Deck to Hand", drawnCards);
+                            UpdateDrawnCards(found, "moved card from Deck to Hand as Drawn Card: ", drawnCards);
                         } else {
-                            UpdateDrawnCards(found, " moved from None to Hand", sanctumDrawnCards);
+                            //TODO: as None Card and as Added Card moved card from None to Hand as Added Card: Rune of Strength RuntimeID: 213
+                            UpdateDrawnCards(found, "moved card from None to Hand as None Card: ", sanctumDrawnCards);
                         }
                     }
                 }
@@ -116,7 +117,10 @@ namespace GodsUnchained_Deck_Tracker.Tracker
         }
 
         private void UpdateDrawnCards(string toSplit, string splitFor, List<Card> drawnCards) {
-            drawnCards.Add(new Card(toSplit.Split(splitFor)[0], true));
+            string[] lineText = toSplit.Split(splitFor);
+            if (lineText.Length > 1) {
+                drawnCards.Add(new Card(lineText[1].Split(" RuntimeID")[0], true));
+            }
         }
     }
 }

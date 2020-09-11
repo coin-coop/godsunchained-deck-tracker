@@ -15,8 +15,6 @@ namespace GodsUnchained_Deck_Tracker.Controller
         private static DeckController instance = null;
         private static readonly object mutex = new object();
 
-        private static readonly string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
-        //private static readonly string projectDirectory = Environment.CurrentDirectory;
         private static readonly string decksFilePath = projectDirectory + "\\..\\Resources\\Files\\decks.txt";
         private static readonly string matchesFilePath = projectDirectory + "\\..\\Resources\\Files\\matches.txt";
         //private static readonly string decksFilePath = projectDirectory + "\\Resources\\Files\\decks.txt";

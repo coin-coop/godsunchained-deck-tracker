@@ -1,7 +1,10 @@
-using GodsUnchained_Deck_Tracker.Model.Entities;
+﻿using GodsUnchained_Deck_Tracker.Model.Entities;
+using GodsUnchained_Deck_Tracker.Utilities;
 using GodsUnchained_Deck_Tracker.Utilities.Http;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -63,17 +66,17 @@ namespace GodsUnchained_Deck_Tracker.Controller
 
         private static void ReadUserIdAndInitalizeUser() {
             if(user == null || user.Id == 0) {
+                int id = 0;
+
                 FileStream logFileStream = new FileStream(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 StreamReader logReader = new StreamReader(logFileStream);
 
-                int id = 0;
-
-                string searchFor = "Sending RegisterPlayer msg... apolloID:";
+                string searchFor = "HumanPlayer.instance has been set to Player(name:PlayerHuman(Clone), apolloID: ";
                 string line;
                 while ((line = logReader.ReadLine()) != null) {
                     if (line.Contains(searchFor)) {
                         string[] splitStr = line.Split(searchFor);
-                        id = Int32.Parse(splitStr.Last());
+                        id = Int32.Parse(splitStr.Last().Split(',').First());
                         break;
                     }
                 }

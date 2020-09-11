@@ -1,11 +1,17 @@
 ﻿using GodsUnchained_Deck_Tracker.Utilities.Http;
 using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace GodsUnchained_Deck_Tracker.Controller
 {
     public class AccessController
     {
+
+        protected static readonly string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
+        //protected static readonly string projectDirectory = Environment.CurrentDirectory;
+
         public static async Task<int> GetTotalRecords(string path) {
             Task<string> cardsTask = RestClient.Get<string>($"{path}");
             await cardsTask;

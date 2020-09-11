@@ -14,9 +14,7 @@ namespace GodsUnchained_Deck_Tracker.Controller
         private static CardPrototypeController instance = null;
         private static readonly object mutex = new object();
 
-        private static readonly string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
         private static readonly string protytpesFilePath = projectDirectory + "\\..\\Resources\\Files\\prototypes.txt";
-        //private static readonly string projectDirectory = Environment.CurrentDirectory;
         //private static readonly string protytpesFilePath = projectDirectory + "\\Resources\\Files\\prototypes.txt";
         private static Dictionary<string, string> prototypes;
 
