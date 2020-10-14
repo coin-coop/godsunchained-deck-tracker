@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using WPFLocalizeExtension.Engine;
 
-namespace GodsUnchained_Deck_Tracker.Utilities
+namespace GodsUnchained_Companion_App.Utilities
 {
 	public static class LocalUtil
 	{

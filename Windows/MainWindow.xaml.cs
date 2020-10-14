@@ -1,7 +1,7 @@
-﻿using GodsUnchained_Deck_Tracker.Controller;
-using GodsUnchained_Deck_Tracker.Model.Entities;
-using GodsUnchained_Deck_Tracker.Tracker;
-using GodsUnchained_Deck_Tracker.Utilities;
+﻿using GodsUnchained_Companion_App.Controller;
+using GodsUnchained_Companion_App.Model.Entities;
+using GodsUnchained_Companion_App.Tracker;
+using GodsUnchained_Companion_App.Utilities;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
-namespace GodsUnchained_Deck_Tracker.Windows
+namespace GodsUnchained_Companion_App.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -28,6 +28,8 @@ namespace GodsUnchained_Deck_Tracker.Windows
 
         private DeckTrackerPlayer deckTrackerPlayer = new DeckTrackerPlayer();
         private DeckTrackerOpponent deckTrackerOpponent = new DeckTrackerOpponent();
+
+        private Button activeDeck;
 
         private DispatcherTimer timerUpdate;
 
@@ -146,7 +148,6 @@ namespace GodsUnchained_Deck_Tracker.Windows
         }
 
         private void UpdateDeck(object sender, EventArgs e) {
-            //deckTrackerOpponent.lblDeckTitle.Content = "Current Deck Title";
             try {
                 UpdateDeckTracker();
             } catch (Exception ex) {
@@ -187,7 +188,7 @@ namespace GodsUnchained_Deck_Tracker.Windows
                     brush.AlignmentY = AlignmentY.Top;
 
                     Button deckButton = new Button {
-                        Content = "               " + deck.Name,
+                        Content = "               " + deck.Name + " Played: " + deck.Games.ToString(),
                         Foreground = Brushes.AliceBlue,
                         FontWeight = FontWeights.Bold,
                         Height = 53,
@@ -208,6 +209,12 @@ namespace GodsUnchained_Deck_Tracker.Windows
             Button button = sender as Button;
             button.Foreground = Brushes.DodgerBlue;
 
+            if(activeDeck != null && activeDeck != button) {
+                activeDeck.Foreground = Brushes.AliceBlue;
+            }
+
+            activeDeck = button;
+
             PlayerDeckTracker.GetInstance.SelectedDeck = button.Tag as Deck;
 
             deckTrackerPlayer.lbCards.ItemsSource = GetObservableCardViews(PlayerDeckTracker.GetInstance.GetSelectedDeckCards());
@@ -215,7 +222,9 @@ namespace GodsUnchained_Deck_Tracker.Windows
             lblDeckTitle.Content = PlayerDeckTracker.GetInstance.SelectedDeck.Name;
             lbCards.ItemsSource = GetObservableCardViews(PlayerDeckTracker.GetInstance.GetSelectedDeckCards());
 
-            btnStartTracker.IsEnabled = true;
+            if (!btnStopTracker.IsEnabled) {
+                btnStartTracker.IsEnabled = true;
+            }
         }
 
         private void StartTrackerButton_Click(object sender, RoutedEventArgs e) {
@@ -250,11 +259,15 @@ namespace GodsUnchained_Deck_Tracker.Windows
             PlayerDeckTracker playerDeckTracker = PlayerDeckTracker.GetInstance;
 
             playerDeckTracker.UpdateDeck();
+
             deckTrackerPlayer.lblDeckTitle.Content = playerDeckTracker.GetDeckName();
             deckTrackerPlayer.lblCardsCount.Content = "Remaining Cards: " + playerDeckTracker.CardsInDeck.ToString();
             deckTrackerPlayer.lbCards.ItemsSource = GetObservableCardViews(playerDeckTracker.GetCurrentDeckCards());
-            deckTrackerPlayer.lbExtraCards.ItemsSource = playerDeckTracker.GetExtraDrawnCards();
-            deckTrackerPlayer.lbSanctumCards.ItemsSource = playerDeckTracker.GetSanctumDrawnCards();
+            deckTrackerPlayer.lbExtraCards.ItemsSource = GetObservableCardViews(playerDeckTracker.GetExtraDrawnCards());
+            deckTrackerPlayer.lbSanctumCards.ItemsSource = GetObservableCardViews(playerDeckTracker.GetSanctumDrawnCards());
+
+            OpponentDeckTracker opponentDeckTracker = OpponentDeckTracker.GetInstance;
+            opponentDeckTracker.OpenOpponentPage();
         }
 
         private ObservableCollection<CardView> GetObservableCardViews(List<CardView> cardsView) {

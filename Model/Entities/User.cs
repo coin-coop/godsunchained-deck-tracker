@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GodsUnchained_Deck_Tracker.Model.Entities
+namespace GodsUnchained_Companion_App.Model.Entities
 {
     public class User
     {

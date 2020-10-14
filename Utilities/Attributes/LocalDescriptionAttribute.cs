@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GodsUnchained_Deck_Tracker.Utilities.Attributes
+namespace GodsUnchained_Companion_App.Utilities.Attributes
 {
     public class LocalDescriptionAttribute : Attribute
     {

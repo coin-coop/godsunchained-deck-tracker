@@ -1,11 +1,9 @@
-﻿using GodsUnchained_Deck_Tracker.Model.Entities;
-using System;
+using GodsUnchained_Companion_App.Model.Entities;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace GodsUnchained_Deck_Tracker.Tracker
+namespace GodsUnchained_Companion_App.Tracker
 {
     public sealed class PlayerDeckTracker : DeckTracker
     {
@@ -13,8 +11,6 @@ namespace GodsUnchained_Deck_Tracker.Tracker
         private static readonly object mutex = new object();
 
         public Deck SelectedDeck { get; set; }
-
-        private static readonly string logFilePath = Properties.Settings.Default.logFilePath;
 
         private static List<Card> currentDeckCards;
         private static List<Card> extraDrawnCards;

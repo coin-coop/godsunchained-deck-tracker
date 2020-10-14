@@ -1,5 +1,5 @@
-﻿using GodsUnchained_Deck_Tracker.Model.Entities;
-using GodsUnchained_Deck_Tracker.Utilities.Http;
+﻿using GodsUnchained_Companion_App.Model.Entities;
+using GodsUnchained_Companion_App.Utilities.Http;
 using Imazen.WebP;
 using Newtonsoft.Json.Linq;
 using System;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace GodsUnchained_Deck_Tracker.Controller
+namespace GodsUnchained_Companion_App.Controller
 {
     public class CardController : AccessController
     {

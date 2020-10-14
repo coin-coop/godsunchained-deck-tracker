@@ -1,6 +1,6 @@
-﻿using GodsUnchained_Deck_Tracker.Model.Entities;
-using GodsUnchained_Deck_Tracker.Utilities;
-using GodsUnchained_Deck_Tracker.Utilities.Http;
+﻿using GodsUnchained_Companion_App.Model.Entities;
+using GodsUnchained_Companion_App.Utilities;
+using GodsUnchained_Companion_App.Utilities.Http;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GodsUnchained_Deck_Tracker.Controller
+namespace GodsUnchained_Companion_App.Controller
 {
     public static class UserController
     {

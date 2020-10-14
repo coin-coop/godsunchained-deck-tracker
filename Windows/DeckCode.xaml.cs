@@ -1,7 +1,7 @@
-﻿using GodsUnchained_Deck_Tracker.Controller;
+﻿using GodsUnchained_Companion_App.Controller;
 using System.Windows;
 
-namespace GodsUnchained_Deck_Tracker.Windows
+namespace GodsUnchained_Companion_App.Windows
 {
     /// <summary>
     /// Interaction logic for DeckCode.xaml

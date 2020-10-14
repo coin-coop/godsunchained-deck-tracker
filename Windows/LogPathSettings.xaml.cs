@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 
-namespace GodsUnchained_Deck_Tracker.Windows
+namespace GodsUnchained_Companion_App.Windows
 {
     /// <summary>
     /// Interaction logic for Settings.xaml

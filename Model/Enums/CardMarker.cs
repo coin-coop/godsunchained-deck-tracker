@@ -1,9 +1,9 @@
-﻿using GodsUnchained_Deck_Tracker.Utilities.Attributes;
+﻿using GodsUnchained_Companion_App.Utilities.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GodsUnchained_Deck_Tracker.Model.Enums
+namespace GodsUnchained_Companion_App.Model.Enums
 {
     public enum CardMarker
     {

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Windows.Media.Imaging;
 
-namespace GodsUnchained_Deck_Tracker.Model.Entities
+namespace GodsUnchained_Companion_App.Model.Entities
 {
     public class CardView
     {

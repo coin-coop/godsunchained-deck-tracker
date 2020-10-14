@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace GodsUnchained_Deck_Tracker.Utilities.Http
+namespace GodsUnchained_Companion_App.Utilities.Http
 {
     public static class RestClient
     {

@@ -1,11 +1,11 @@
-﻿<Window x:Class="GodsUnchained_Deck_Tracker.Windows.MainWindow"
+﻿<Window x:Class="GodsUnchained_Companion_App.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GodsUnchained_Deck_Tracker.Windows"
+        xmlns:local="clr-namespace:GodsUnchained_Companion_App.Windows"
         mc:Ignorable="d"
-        Title="Gods Unchained Deck Tracker" Height="840" Width="1200" FontSize="16"
+        Title="Gods Unchained Companion App" Height="840" Width="1200" FontSize="16"
         Loaded="Window_Loaded">
 
     <Window.Background>

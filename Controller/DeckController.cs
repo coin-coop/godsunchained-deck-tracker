@@ -1,14 +1,15 @@
-﻿using GodsUnchained_Deck_Tracker.Model.Entities;
-using GodsUnchained_Deck_Tracker.Utilities.Http;
+using GodsUnchained_Companion_App.Model.Entities;
+using GodsUnchained_Companion_App.Utilities.Http;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GodsUnchained_Deck_Tracker.Controller
+namespace GodsUnchained_Companion_App.Controller
 {
     public class DeckController : AccessController
     {
@@ -33,6 +34,10 @@ namespace GodsUnchained_Deck_Tracker.Controller
             }
         }
 
+        public static Deck GetDeck(string name, string god, string cards, string games) {
+            return new Deck(name, god, GetCards(cards), Int32.Parse(games));
+        }
+
         public static List<Deck> GetDecks() {
             StreamReader decksReader = new StreamReader(decksFilePath);
             List<Deck> decks = new List<Deck>();
@@ -42,12 +47,12 @@ namespace GodsUnchained_Deck_Tracker.Controller
             while ((line = decksReader.ReadLine()) != null) {
                 string[] splitDeck = line.Split("::");
                 string god = splitDeck.First();
-                string cards = splitDeck.Last();
-
-                List<Card> cardList = GetCards(cards);
+                string cards = splitDeck[1];
+                string games = splitDeck.Last();
 
                 i++;
-                decks.Add(new Deck("Deck " + i.ToString(), god, cardList));
+
+                decks.Add(GetDeck("Deck " + i.ToString(), god, cards, games));
             }
             decksReader.Close();
 
@@ -59,9 +64,11 @@ namespace GodsUnchained_Deck_Tracker.Controller
          **/
         public static async void GetDecksPlayedByPlayer() {
             matches = new Dictionary<string, string>();
-            string timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString();
 
-            Task<int> totalRecordsTask = GetTotalRecords($"match?start_time=1593474160-{timestamp}");
+            string timestampBegin = new DateTimeOffset(DateTime.UtcNow.AddDays(-30)).ToUnixTimeSeconds().ToString();
+            string timestampEnd = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString();
+
+            Task<int> totalRecordsTask = GetTotalRecords($"match?start_time={timestampBegin}-{timestampEnd}");
             await totalRecordsTask;
             int total = totalRecordsTask.Result;
 
@@ -70,20 +77,20 @@ namespace GodsUnchained_Deck_Tracker.Controller
             }
 
             if (File.ReadLines(matchesFilePath).Count() < total) {
-                ReadMatchesFromAPI(total, timestamp);
+                ReadMatchesFromAPI(total, timestampBegin, timestampEnd);
             }
         }
 
         public static void ImportDeckFromCode(string deckCode) {
             string[] deck = deckCode.Split(new[] { ',' }, 2);
-            SaveDeckToFile(deck.First(), deck.Last());
+            SaveDeckToFile(deck.First(), "", deck.Last(), "");
         }
 
-        private static async void ReadMatchesFromAPI(int total, string timestamp) {
+        private static async void ReadMatchesFromAPI(int total, string timestampBegin, string timestampEnd) {
             int page = 1;
             int perPage = 100;
             do {
-                Task<string> getMatchesTask = RestClient.Get<string>($"match?start_time=1593474160-{timestamp}&page={page}&perPage={perPage}");
+                Task<string> getMatchesTask = RestClient.Get<string>($"match?start_time={timestampBegin}-{timestampEnd}&page={page}&perPage={perPage}");
                 await getMatchesTask;
                 string matchesResult = getMatchesTask.Result;
                 page++;
@@ -140,7 +147,7 @@ namespace GodsUnchained_Deck_Tracker.Controller
                 }
 
                 if (UserController.GetUser().Id == userID) {
-                    SaveDeckToFile(god, cardsStr);
+                    SaveDeckToFile(god, godPower, cardsStr, endTime);
                 }
 
                 value += cardsStr;
@@ -149,11 +156,41 @@ namespace GodsUnchained_Deck_Tracker.Controller
             }
         }
 
-        private static void SaveDeckToFile(string god, string cardsStr) {
-            if (!File.ReadAllText(decksFilePath).Contains(god + "::" + cardsStr)) {
+        private static void SaveDeckToFile(string god, string godPower, string cardsStr, string endTime) {
+            string currentDeck = god + "::" + cardsStr;
+
+            if (!File.ReadAllText(decksFilePath).Contains(currentDeck)) {
                 StreamWriter decksWriter = File.AppendText(decksFilePath);
-                decksWriter.WriteLine(god + "::" + cardsStr);
+                decksWriter.WriteLine(currentDeck + "::" + godPower + "::" + endTime + "::1");
                 decksWriter.Close();
+            } else {
+                List<string> decks = File.ReadAllLines(decksFilePath).ToList();
+
+                for (int i = decks.Count - 1; i >= 0; --i) {
+                    string newDeck = currentDeck + "::" + godPower;
+                    if(decks[i].Contains(currentDeck)) {
+                        Debug.WriteLine("Replace deck: " + decks[i]);
+                        string[] data = decks[i].Split("::");
+
+                        decks.RemoveAt(i);
+
+                        int countGames = Int32.Parse(data.Last());
+
+                        long currentEndTime = long.Parse(endTime);
+                        long foundEndTime = long.Parse(data[2]);
+
+                        if (foundEndTime >= currentEndTime) {
+                            newDeck = newDeck + "::" + foundEndTime;
+                        } else {
+                            newDeck = newDeck + "::" + currentEndTime;
+                        }
+
+                        decks.Add(newDeck + "::" + ++countGames);
+                        Debug.WriteLine("Replaced deck: " + newDeck + "::" + countGames);
+                        break;
+                    }
+                }
+                File.WriteAllLines(decksFilePath, decks);
             }
         }
 

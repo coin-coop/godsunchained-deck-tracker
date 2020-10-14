@@ -1,4 +1,4 @@
-﻿using GodsUnchained_Deck_Tracker.Tracker;
+﻿using GodsUnchained_Companion_App.Tracker;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GodsUnchained_Deck_Tracker.Windows
+namespace GodsUnchained_Companion_App.Windows
 {
     /// <summary>
     /// Interaction logic for CardsCollection.xaml

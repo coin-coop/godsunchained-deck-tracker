@@ -1,10 +1,10 @@
-﻿using GodsUnchained_Deck_Tracker.Utilities.Http;
+﻿using GodsUnchained_Companion_App.Utilities.Http;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace GodsUnchained_Deck_Tracker.Controller
+namespace GodsUnchained_Companion_App.Controller
 {
     public class AccessController
     {

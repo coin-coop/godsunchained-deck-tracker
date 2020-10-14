@@ -1,13 +1,15 @@
-﻿using GodsUnchained_Deck_Tracker.Model.Entities;
+﻿using GodsUnchained_Companion_App.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GodsUnchained_Deck_Tracker.Tracker
+namespace GodsUnchained_Companion_App.Tracker
 {
     public class DeckTracker : IDeckTracker
     {
+        protected static readonly string logFilePath = Properties.Settings.Default.logFilePath;
+
         public int CardsInDeck { get; set; }
 
         public List<CardView> GetCardsView(List<Card> cards, Deck selectedDeck = null, bool currentCards = false) {
