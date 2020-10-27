@@ -47,12 +47,13 @@ Click button 'Start Tracker', after that will appear the separate half transpare
 
 ![Tracker view](/Docs/sc4.png)
  
-**7. Play th game**
+**7. Play the game**
  
 The deck tracker will automatically refresh whenever you start a new game.
 
 
-More information on [User Guide](https://github.com/coin-coop/godsunchained-deck-tracker/wiki/User-Guide) page.
+More information on:[User Guide](https://github.com/coin-coop/godsunchained-deck-tracker/wiki/User-Guide) and [Known Issues](https://github.com/coin-coop/godsunchained-deck-tracker/wiki/Known-Issues) page.
+
 
 As requested address for donation:
 ETH: 0xE70dAc94bEdf39038802850aBBaFc2103abE65e6
